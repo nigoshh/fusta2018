@@ -1,0 +1,25 @@
+﻿[paste into https://www.websequencediagrams.com ]
+
+title käyttäjä luo uuden muistiinpanon ollessaan sivulla https://fullstack-exampleapp.herokuapp.com/spa
+
+participant "kayttaja" as k
+participant "selain" as s
+participant "palvelin" as p
+
+k->s:
+note right of k
+  käyttäjä kirjoittaa tekstikenttään
+  "yo" ja painaa "tallenna" -nappia
+end note
+note right of s
+  selain suorittaa JavaScript-koodia (spa.js):
+  luo muistiinpanon, lisää sen muistiinpanojen listalle,
+  piirtää ruudulle muistiinpanojen listan uudelleen
+  ja lähettää uuden muistiinpanon palvelimelle
+end note
+s->p: POST {"content":"yo","date":"2018-05-24T17:30:19.107Z"}\nhttps://fullstack-exampleapp.herokuapp.com/new_note_spa
+note left of p
+  palvelin luo uutta muistiinpanoa vastaavan olion
+  ja laittaa sen muistiinpanot sisältävään taulukkoon
+end note
+p->s: status 201, {"message":"note created"}

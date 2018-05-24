@@ -1,0 +1,35 @@
+﻿[paste into https://www.websequencediagrams.com ]
+
+title käyttäjä menee selaimella osoitteeseen https://fullstack-exampleapp.herokuapp.com/spa
+
+participant "kayttaja" as k
+participant "selain" as s
+participant "palvelin" as p
+
+k->s:
+note right of k
+  käyttäjä kirjoittaa osoiteriville
+  https://fullstack-exampleapp.herokuapp.com/spa
+  (tai klikkaa linkkiä siihen osoitteeseen)
+end note
+s->p: GET https://fullstack-exampleapp.herokuapp.com/spa
+p->s: status 200, sivun HTML-koodi
+s->p: GET https://fullstack-exampleapp.herokuapp.com/main.css
+p->s: status 200, main.css
+s->p: GET https://fullstack-exampleapp.herokuapp.com/spa.js
+p->s: status 200, spa.js
+note right of s
+  selain alkaa suorittamaan JavaScript-koodia (spa.js)
+end note
+s->p: GET https://fullstack-exampleapp.herokuapp.com/data.json
+p->s: status 200, data.json
+note right of s
+  selain jatkaa spa.js -tiedoston koodin suoritusta,
+  tallentaa data.json -tiedostossa olevat muistiinpanot
+  muuttujaan, muodostaa muistiinpanoista ul -elementin
+  ja lisää ul -elementin sivun HTML-koodiin
+end note
+note left of s
+  selain näyttää HTML-koodilla ja CSS-koodilla
+  (main.css) muodostettua sivua
+end note

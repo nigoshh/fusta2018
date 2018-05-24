@@ -1,0 +1,34 @@
+﻿[paste into https://www.websequencediagrams.com ]
+
+title käyttäjä navigoi urliin https://fullstack-exampleapp.herokuapp.com/notes
+
+participant "kayttaja" as k
+participant "selain" as s
+participant "palvelin" as p
+
+k->s:
+note right of k
+  käyttäjä kirjoittaa osoiteriville
+  https://fullstack-exampleapp.herokuapp.com/notes
+  (tai klikkaa linkkiä siihen osoitteeseen)
+end note
+s->p: GET https://fullstack-exampleapp.herokuapp.com/notes
+p->s: status 200, sivun HTML-koodi
+s->p: GET https://fullstack-exampleapp.herokuapp.com/main.css
+p->s: status 200, main.css
+s->p: GET https://fullstack-exampleapp.herokuapp.com/main.js
+p->s: status 200, main.js
+note right of s
+  selain alkaa suorittamaan JavaScript-koodia (main.js)
+end note
+s->p: GET https://fullstack-exampleapp.herokuapp.com/data.json
+p->s: status 200, data.json
+note right of s
+  selain jatkaa main.js -tiedoston koodin suoritusta,
+  ja lisää ul -elementin sivun HTML-koodiin,
+  käyttämällä data.json -tiedostossa olevaa dataa
+end note
+note left of s
+  selain näyttää HTML-koodilla ja CSS-koodilla
+  (main.css) muodostettua sivua
+end note
