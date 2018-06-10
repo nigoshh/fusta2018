@@ -28,18 +28,11 @@ class App extends React.Component {
 
   getVotes = (i) => 'has ' + this.state.votes[i] + ' votes'
 
-  mostVoted = () => {
-    const votes = this.state.votes
-    let max = votes[0]
-    let index = 0
-    votes.forEach((v,i) => {
-      if (v > max) {
-        max = v
-        index = i
-      }
-    })
-    return index
-  }
+  maxWithIndex = (x) => x.reduce(
+    (acc, xi, i) => (xi > acc.max) ? { max: xi, i: i } : acc,
+    { max: x[0], i: 0 })
+
+  mostVoted = () => this.maxWithIndex(this.state.votes).i
 
   render() {
     return (
