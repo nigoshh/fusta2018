@@ -1,58 +1,54 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Kurssi from './components/Kurssi'
 
 const App = () => {
-  const kurssi = {
-    nimi: 'Half Stack -sovelluskehitys',
-    osat: [
-      {
-        nimi: 'Reactin perusteet',
-        tehtavia: 10
-      },
-      {
-        nimi: 'Tiedonvälitys propseilla',
-        tehtavia: 7
-      },
-      {
-        nimi: 'Komponenttien tila',
-        tehtavia: 14
-      }
-    ]
-  }
+  const kurssit = [
+    {
+      nimi: 'Half Stack -sovelluskehitys',
+      id: 1,
+      osat: [
+        {
+          nimi: 'Reactin perusteet',
+          tehtavia: 10,
+          id: 1
+        },
+        {
+          nimi: 'Tiedonvälitys propseilla',
+          tehtavia: 7,
+          id: 2
+        },
+        {
+          nimi: 'Komponenttien tila',
+          tehtavia: 14,
+          id: 3
+        }
+      ]
+    },
+    {
+      nimi: 'Node.js',
+      id: 2,
+      osat: [
+        {
+          nimi: 'Routing',
+          tehtavia: 3,
+          id: 1
+        },
+        {
+          nimi: 'Middlewaret',
+          tehtavia: 7,
+          id: 2
+        }
+      ]
+    }
+  ]
 
   return (
     <div>
-      <Otsikko kurssi={kurssi.nimi} />
-      <Sisalto osat={kurssi.osat} />
-      <Yhteensa osat={kurssi.osat} />
+      <h1>Opetusohjelma</h1>
+      {kurssit.map(k => <Kurssi key={k.id} kurssi={k} />)}
     </div>
   )
-}
-
-const Otsikko = (props) => {
-  return <h1>{props.kurssi}</h1>
-}
-
-const Sisalto = (props) => {
-  return (
-    <div>
-      <Osa osa={props.osat[0]} />
-      <Osa osa={props.osat[1]} />
-      <Osa osa={props.osat[2]} />
-    </div>
-  )
-}
-
-const Yhteensa = (props) => {
-  let summa = 0
-  props.osat.forEach(osa => {
-    summa += osa.tehtavia
-  })
-  return <p>yhteensä {summa} tehtävää</p>
-}
-
-const Osa = (props) => {
-  return <p>{props.osa.nimi} {props.osa.tehtavia}</p>
 }
 
 ReactDOM.render(
