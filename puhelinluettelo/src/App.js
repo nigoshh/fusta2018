@@ -1,5 +1,5 @@
 import React from 'react'
-import axios from 'axios'
+import personService from './services/persons'
 
 class App extends React.Component {
   constructor(props) {
@@ -12,28 +12,42 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        this.setState({ persons: response.data })
-      })
-  }
+  componentDidMount = () =>
+    personService.getAll().then(persons => this.setState({ persons }))
 
-  addPerson = (event) => {
+  addOrUpdatePerson = (event) => {
     event.preventDefault()
     const name = this.state.newName
-    if (this.state.persons.find((p) => p.name === name) !== undefined) {
-      alert('name already taken: choose another one')
-      return
-    }
+    const person = this.state.persons.find((p) => p.name === name)
     const number = this.state.newNumber
-    const persons = this.state.persons.concat({ name, number })
-    this.setState({ persons, newName: '', newNumber: ''})
+    if (person !== undefined) {
+      const msg = `${name} on jo luettelossa, korvataanko vanha numero uudella?`
+      if (window.confirm(msg))
+        personService.update({ ...person, number })
+          .then(updated => this.setState({
+            persons: this.state.persons
+              .map(p => p.id === updated.id ? updated : p),
+            newName: '', newNumber: ''
+          }))
+    } else {
+      personService.create({ name, number })
+        .then(newPerson => {
+          const persons = this.state.persons.concat(newPerson)
+          this.setState({ persons, newName: '', newNumber: ''})
+        })
+    }
+  }
+
+  removePerson = (person) => () => {
+    if (window.confirm(`poistetaanko ${person.name}?`))
+      personService.remove(person.id)
+        .then(() => this.setState({
+          persons: this.state.persons.filter(p => p.id !== person.id)
+        }))
   }
 
   handleFilterChange = (event) =>
-    this.setState({ filter: event.target.value.toLowerCase()})
+    this.setState({ filter: event.target.value})
 
   handleNameChange = (event) =>
     this.setState({ newName: event.target.value})
@@ -41,9 +55,10 @@ class App extends React.Component {
   handleNumberChange = (event) =>
     this.setState({ newNumber: event.target.value})
 
-  render() {
-    const personsToShow = this.state.persons.filter(
-      p => p.name.toLowerCase().includes(this.state.filter))
+  render = () => {
+    const personsToShow = this.state.persons
+      .filter(p => p.name.toLowerCase()
+      .includes(this.state.filter.toLowerCase()))
 
     return (
       <div>
@@ -55,30 +70,44 @@ class App extends React.Component {
           />
         </div>
         <NewPersonForm
-          addPerson={this.addPerson}
+          addOrUpdatePerson={this.addOrUpdatePerson}
           newName={this.state.newName}
           handleNameChange={this.handleNameChange}
           newNumber={this.state.newNumber}
           handleNumberChange={this.handleNumberChange}
         />
-        <h2>Numerot</h2>
-        <table>
-          <tbody>
-            {personsToShow.map(p => <Person key={p.name} person={p} />)}
-          </tbody>
-        </table>
+        <Persons
+          persons={personsToShow}
+          remove={this.removePerson}
+        />
       </div>
     )
   }
 }
 
-const Person = ({ person }) =>
-  <tr><td>{person.name}</td><td>{person.number}</td></tr>
+const Persons = ({ persons, remove }) =>
+  <div>
+    <h2>Numerot</h2>
+    <table>
+      <tbody>
+        {persons.map(p =>
+          <Person key={p.id} person={p} remove={remove(p)} />
+        )}
+      </tbody>
+    </table>
+  </div>
+
+const Person = ({ person, remove }) =>
+  <tr>
+    <td>{person.name}</td>
+    <td>{person.number}</td>
+    <td><button onClick={remove}>poista</button></td>
+  </tr>
 
 const NewPersonForm = (props) => (
   <div>
     <h2>Lisää uusi</h2>
-    <form onSubmit={props.addPerson}>
+    <form onSubmit={props.addOrUpdatePerson}>
       <div>
         nimi: <input
         value={props.newName}
@@ -92,7 +121,7 @@ const NewPersonForm = (props) => (
         />
       </div>
       <div>
-        <button type="submit">lisää</button>
+        <button type='submit'>lisää</button>
       </div>
     </form>
   </div>
