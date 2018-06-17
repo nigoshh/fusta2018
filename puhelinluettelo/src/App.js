@@ -13,20 +13,26 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount = () =>
-    personService.getAll().then(persons => this.setState({ persons }))
+  componentDidMount = () => this.getAllPersons()
 
   addOrUpdatePerson = (event) => {
     event.preventDefault()
+    let message = ''
     const name = this.state.newName
-    const person = this.state.persons.find((p) => p.name === name)
+    if (!name)
+      message += 'täytä nimi -kenttä'
     const number = this.state.newNumber
-    if (person !== undefined && window.confirm(
-        `${name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
-      this.updatePerson({ ...person, number })
-    } else {
+    if (!number)
+      message += message ? ' ja numero -kenttä' : 'täytä numero -kenttä'
+    if (message)
+      return this.showMessage(message)
+    const person = this.state.persons.find((p) => p.name === name)
+    if (person !== undefined) {
+      message = `${name} on jo luettelossa, korvataanko vanha numero uudella?`
+      if (window.confirm(message))
+        this.updatePerson({ ...person, number })
+    } else
       this.addPerson({ name, number })
-    }
   }
 
   addPerson = (person) =>
@@ -37,30 +43,33 @@ class App extends React.Component {
         this.setState({ persons, newName: '', newNumber: '', message })
         this.messageTimeout(message)
       })
+      .catch(error => {
+        this.showResponseErrorMessage(error)
+        this.getAllPersons()
+      })
 
   updatePerson = (person) =>
     personService.update(person)
-      .then(updated => {
-        const message = `päivitettiin henkilön ${updated.name} numero`
-        this.setState({
-          persons: this.state.persons
-            .map(p => p.id === updated.id ? updated : p),
-          newName: '', newNumber: '', message
-        })
-        this.messageTimeout(message)
-      })
+      .then(this.cleanUpAfterUpdate)
       .catch(error => {
-        personService.create(person)
-          .then(updated => {
-            const message = `päivitettiin henkilön ${updated.name} numero`
-            this.setState({
-              persons: this.state.persons
-                .map(p => p.id === updated.id ? updated : p),
-              newName: '', newNumber: '', message
-            })
-            this.messageTimeout(message)
-          })
+        const status = error.response.status
+        if (status === 404)
+          personService.create(person)
+            .then(this.cleanUpAfterUpdate)
+            .catch(this.showResponseErrorMessage)
+        else
+          this.showResponseErrorMessage(error)
       })
+
+  cleanUpAfterUpdate = (updatedPerson) => {
+    const message = `päivitettiin henkilön ${updatedPerson.name} numero`
+    this.setState({
+      persons: this.state.persons
+        .map(p => p.name === updatedPerson.name ? updatedPerson : p),
+      newName: '', newNumber: '', message
+    })
+    this.messageTimeout(message)
+  }
 
   removePerson = (person) => () => {
     if (window.confirm(`poistetaanko ${person.name}?`))
@@ -73,8 +82,8 @@ class App extends React.Component {
           })
           this.messageTimeout(message)
         })
-        .catch(error => {
-          const message = `${person.name} oli jo poistettu palvelimelta`
+        .catch(() => {
+          const message = `${person.name} oli jo poistettu palvelimella`
           this.setState({
             persons: this.state.persons.filter(p => p.id !== person.id),
             message
@@ -83,11 +92,27 @@ class App extends React.Component {
         })
   }
 
+  getAllPersons = () =>
+    personService
+      .getAll()
+      .then(persons => this.setState({ persons }))
+      .catch(this.showResponseErrorMessage)
+
   messageTimeout = (message) =>
     setTimeout(() => {
       if (this.state.message === message)
         this.setState({ message: null})
     }, 5000)
+
+  showMessage = (message) => {
+    this.setState({ message })
+    this.messageTimeout(message)
+  }
+
+  showResponseErrorMessage = (error) => {
+    const message = error.response.data.error
+    this.showMessage(`palvelimelta tuli virheviesti: ${message}`)
+  }
 
   handleFilterChange = (event) =>
     this.setState({ filter: event.target.value})
