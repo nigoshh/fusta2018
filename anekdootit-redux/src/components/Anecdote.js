@@ -6,7 +6,7 @@ const Anecdote = ({ anecdote, onClick }) =>
       {anecdote.content}
     </div>
     <div>
-      has {anecdote.votes}
+      <span>has {anecdote.votes} votes </span>
       <button onClick={onClick}>vote</button>
     </div>
   </div>
