@@ -1,0 +1,27 @@
+.blog {
+  padding-top: 10px;
+  padding-left: 2px;
+  border: solid;
+  border-width: 1px;
+  margin-bottom: 5px;
+}
+
+.error {
+  color: white;
+  background: red;
+  font-size: 23px;
+  border-radius: 7px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.message {
+  color: white;
+  background: #0099cc;
+  font-size: 23px;
+  border-radius: 7px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.tab { margin-left: 23px; }

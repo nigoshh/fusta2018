@@ -101,7 +101,7 @@ class App extends React.Component {
   messageTimeout = (message) =>
     setTimeout(() => {
       if (this.state.message === message)
-        this.setState({ message: null})
+        this.setState({ message: null })
     }, 5000)
 
   showMessage = (message) => {
@@ -115,7 +115,7 @@ class App extends React.Component {
   }
 
   handleFilterChange = (event) =>
-    this.setState({ filter: event.target.value})
+    this.setState({ filter: event.target.value })
 
   handleNameChange = (event) =>
     this.setState({ newName: event.target.value})
