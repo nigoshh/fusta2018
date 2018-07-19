@@ -1,7 +1,7 @@
 import axios from 'axios'
-import backendUrl from '../utils/config'
+const config = require('../utils/config')
 
-const baseUrl = backendUrl() + '/api/users'
+const baseUrl = config.backendUrl + '/api/users'
 
 const getAll = async () => {
   const res = await axios.get(baseUrl)

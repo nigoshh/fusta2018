@@ -1,7 +1,7 @@
 import axios from 'axios'
-import backendUrl from '../utils/config'
+const config = require('../utils/config')
 
-const baseUrl = backendUrl() + '/api/login'
+const baseUrl = config.backendUrl + '/api/login'
 
 const login = async (credentials) => {
   const res = await axios.post(baseUrl, credentials)
