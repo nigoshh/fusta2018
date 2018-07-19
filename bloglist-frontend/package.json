@@ -15,11 +15,10 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "build": "babel src/ -d build/",
+    "build": "react-scripts build",
     "eject": "react-scripts eject",
     "flow": "flow",
     "lint": "eslint .",
-    "prepublish": "npm run build",
     "start": "react-scripts start",
     "test": "react-scripts test --env=jsdom"
   },
