@@ -1,21 +1,14 @@
 module.exports = {
     "env": {
-        "es6": true
+        "browser": true,
+        "node": true,
+        "es6": true,
+        "jest/globals": true
     },
-    "extends": "eslint:recommended",
-    "globals": {
-        "beforeAll": false,
-        "beforeEach": false,
-        "console": false,
-        "describe": false,
-        "document": false,
-        "expect": false,
-        "it": false,
-        "jest": false,
-        "localStorage": false,
-        "setTimeout": false,
-        "window": false
-    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
     "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
@@ -25,7 +18,7 @@ module.exports = {
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react", "jest"
     ],
     "rules": {
         "arrow-spacing": [
@@ -35,9 +28,6 @@ module.exports = {
         "indent": [
             "error", 2
         ],
-        "linebreak-style": [
-            "error", "windows"
-        ],
         "no-console": 0,
         "object-curly-spacing": [
             "error", "always"
@@ -45,18 +35,9 @@ module.exports = {
         "quotes": [
             "error", "single"
         ],
-        "react/jsx-uses-react": "error",
-        "react/jsx-uses-vars": "error",
+        "react/prop-types": 0,
         "semi": [
             "error", "never"
         ]
-    },
-    "settings": {
-        "react": {
-            "createClass": "createReactClass",
-            "pragma": "React",
-            "version": "16.4",
-            "flowVersion": "0.75"
-        }
     }
 };

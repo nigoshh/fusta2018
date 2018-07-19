@@ -1,49 +1,55 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { likeBlog, removeBlog } from '../reducers/blogReducer'
+import CommentForm from './CommentForm'
+import NoMatch from './NoMatch'
 
-class Blog extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      selected: false
-    }
-  }
+export const Blog = ({ blog, history, like, loggedInUser, remove }) => {
 
-  setSelected = selected => this.setState({ selected })
+  if (!blog)
+    return <NoMatch />
 
-  toggleSelected = () => this.setState({ selected: !this.state.selected })
+  const { author, comments, id, likes, title, url, user } = blog
+  const deleteButton =
+    <button onClick={() => remove(blog, history)}>delete</button>
+  const likeButton = <button onClick={() => like(blog, history)}>like</button>
+  const superUser =
+    <span style={{ textDecoration: 'line-through' }}>secret user</span>
+  const commentList = () =>
+    <ul>
+      {comments.map(c => <li key={c}>{c}</li>)}
+    </ul>
 
-  render() {
-
-    const { blog, handleLike, loggedInUser, remove } = this.props
-    const { author, likes, title, url, user } = blog
-    const f = fontStyle => ({ fontStyle })
-    const deleteButton = <button onClick={remove}>delete</button>
-    const showWhenSelected = { display: this.state.selected ? '' : 'none' }
-    const superUser =
-      <span style={{ textDecoration: 'line-through' }}>secret user</span>
-
-    return (
-      <div className="blog">
-        <div onClick={this.toggleSelected}>
-          <span style={f('italic')}>{title}</span> – {author}
-        </div>
-        <div className="tab" style={showWhenSelected}>
-          <a href={url}>{url}<br /></a>
-          {likes} likes <button onClick={handleLike}>like</button><br/>
-          added by {user ? user.name : superUser}<br/>
-          {(!user || user.id === loggedInUser.id) ? deleteButton : ''}
-        </div>
+  return (
+    <div>
+      <h2><span style={f('italic')}>{title}</span> – {author}</h2>
+      <div className="box">
+        <a href={url}>{url}</a><br/>
+        {likes} likes {likeButton}<br/>
+        added by {user ? user.name : superUser}<br/>
+        {(!user || user.id === loggedInUser.id) ? deleteButton : ''}
+        <h3>comments</h3>
+        {comments ? commentList() : null}
+        <CommentForm blogId={id} history={history} />
       </div>
-    )
-  }
+    </div>
+  )
 }
 
+export const f = fontStyle => ({ fontStyle })
+
 Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  handleLike: PropTypes.func.isRequired,
+  blog: PropTypes.object,
+  history: PropTypes.object.isRequired,
+  like: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   remove: PropTypes.func.isRequired
 }
 
-export default Blog
+const mapStateToProps = ({ blogs, loggedInUser }, { history, id }) =>
+  ({ blog: blogs.find(b => b.id === id), history, loggedInUser })
+
+const mapDispatchToProps = { like: likeBlog, remove: removeBlog }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Blog)

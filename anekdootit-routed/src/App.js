@@ -8,7 +8,7 @@ const Menu = () => {
   const active = {
     ...baseStyle,
     backgroundColor: '#009966',
-    color: 'black',
+    color: 'white',
     fontStyle: 'italic'
   }
   return (

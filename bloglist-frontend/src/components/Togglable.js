@@ -18,11 +18,11 @@ class Togglable extends React.Component {
     return (
       <div>
         <div style={hideWhenVisible}>
-          <button onClick={this.toggleVisibility}>{label}</button>
+          <button name={label} onClick={this.toggleVisibility}>{label}</button>
         </div>
         <div style={showWhenVisible}>
           {this.props.children}
-          <button onClick={this.toggleVisibility}>hide "{label}"</button>
+          <button onClick={this.toggleVisibility}>hide {`"${label}"`}</button>
         </div>
       </div>
     )
@@ -30,7 +30,8 @@ class Togglable extends React.Component {
 }
 
 Togglable.propTypes = {
-  buttonLabel: PropTypes.string.isRequired
+  buttonLabel: PropTypes.string.isRequired,
+  children: PropTypes.object.isRequired
 }
 
 export default Togglable

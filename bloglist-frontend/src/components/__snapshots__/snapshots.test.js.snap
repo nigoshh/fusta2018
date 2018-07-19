@@ -1,0 +1,563 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders <Blog/> correctly 1`] = `
+<div>
+  <h2>
+    <span
+      style={
+        Object {
+          "fontStyle": "italic",
+        }
+      }
+    >
+      Paperopoli
+    </span>
+     – 
+    Zio
+  </h2>
+  <div
+    className="box"
+  >
+    <a
+      href="httpke"
+    >
+      httpke
+    </a>
+    <br />
+    7
+     likes 
+    <button
+      onClick={[Function]}
+    >
+      like
+    </button>
+    <br />
+    added by 
+    Papera
+    <br />
+    <h3>
+      comments
+    </h3>
+    <ul>
+      <li
+        key="yo"
+      >
+        yo
+      </li>
+      <li
+        key="cheers"
+      >
+        cheers
+      </li>
+      <li
+        key="mate"
+      >
+        mate
+      </li>
+    </ul>
+    <Connect(CommentForm)
+      blogId="5b2b843c78c7482a2031d9eb"
+      history={Object {}}
+    />
+  </div>
+</div>
+`;
+
+exports[`renders <Blog/> correctly 2`] = `
+<div>
+  <h2>
+    <span
+      style={
+        Object {
+          "fontStyle": "italic",
+        }
+      }
+    >
+      Cash
+    </span>
+     – 
+    Spitty
+  </h2>
+  <div
+    className="box"
+  >
+    <a
+      href="httpmah"
+    >
+      httpmah
+    </a>
+    <br />
+    23
+     likes 
+    <button
+      onClick={[Function]}
+    >
+      like
+    </button>
+    <br />
+    added by 
+    Lia
+    <br />
+    <button
+      onClick={[Function]}
+    >
+      delete
+    </button>
+    <h3>
+      comments
+    </h3>
+    <ul>
+      <li
+        key="nice stuff"
+      >
+        nice stuff
+      </li>
+    </ul>
+    <Connect(CommentForm)
+      blogId="5b2b849178c7482a2031d9ed"
+      history={Object {}}
+    />
+  </div>
+</div>
+`;
+
+exports[`renders <Blog/> correctly 3`] = `
+<div>
+  <h2>
+    <span
+      style={
+        Object {
+          "fontStyle": "italic",
+        }
+      }
+    >
+      Jam
+    </span>
+     – 
+    Jazz
+  </h2>
+  <div
+    className="box"
+  >
+    <a
+      href="httpb"
+    >
+      httpb
+    </a>
+    <br />
+    0
+     likes 
+    <button
+      onClick={[Function]}
+    >
+      like
+    </button>
+    <br />
+    added by 
+    Lia
+    <br />
+    <button
+      onClick={[Function]}
+    >
+      delete
+    </button>
+    <h3>
+      comments
+    </h3>
+    <ul />
+    <Connect(CommentForm)
+      blogId="5b2bbd95423e6c3af4c4aaa4"
+      history={Object {}}
+    />
+  </div>
+</div>
+`;
+
+exports[`renders <BlogForm/> correctly 1`] = `
+<div>
+  <h3>
+    add blog
+  </h3>
+  <form
+    onSubmit={[Function]}
+  >
+    <div>
+      title: 
+      <input
+        name="title"
+        onChange={[Function]}
+        value=""
+      />
+    </div>
+    <div>
+      author: 
+      <input
+        name="author"
+        onChange={[Function]}
+        value=""
+      />
+    </div>
+    <div>
+      url: 
+      <input
+        name="url"
+        onChange={[Function]}
+        value=""
+      />
+    </div>
+    <div>
+      <button
+        type="submit"
+      >
+        create
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`renders <BlogList/> correctly 1`] = `
+Array [
+  <div
+    className="box"
+>
+    <a
+        href="/blogs/5b2b843c78c7482a2031d9eb"
+        onClick={[Function]}
+    >
+        <span
+            style={
+                Object {
+                    "fontStyle": "italic",
+                  }
+            }
+        >
+            Paperopoli
+        </span>
+         – 
+        Zio
+    </a>
+</div>,
+  <div
+    className="box"
+>
+    <a
+        href="/blogs/5b2b849178c7482a2031d9ed"
+        onClick={[Function]}
+    >
+        <span
+            style={
+                Object {
+                    "fontStyle": "italic",
+                  }
+            }
+        >
+            Cash
+        </span>
+         – 
+        Spitty
+    </a>
+</div>,
+  <div
+    className="box"
+>
+    <a
+        href="/blogs/5b2bbd95423e6c3af4c4aaa4"
+        onClick={[Function]}
+    >
+        <span
+            style={
+                Object {
+                    "fontStyle": "italic",
+                  }
+            }
+        >
+            Jam
+        </span>
+         – 
+        Jazz
+    </a>
+</div>,
+]
+`;
+
+exports[`renders <CommentForm/> correctly 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <input
+    name="comment"
+    onChange={[Function]}
+    type="text"
+    value=""
+  />
+  <button
+    type="submit"
+  >
+    add comment
+  </button>
+</form>
+`;
+
+exports[`renders <LoginForm/> correctly 1`] = `
+<div>
+  <h2>
+    log in
+  </h2>
+  <form
+    onSubmit={[Function]}
+  >
+    <div>
+      username: 
+      <input
+        name="username"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div>
+      password: 
+      <input
+        name="password"
+        onChange={[Function]}
+        type="password"
+        value=""
+      />
+    </div>
+    <button
+      type="submit"
+    >
+      log in
+    </button>
+  </form>
+</div>
+`;
+
+exports[`renders <NavBar/> correctly 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "#33cccc",
+      "padding": "15px 10px",
+    }
+  }
+>
+  <a
+    aria-current={null}
+    className={undefined}
+    href="/blogs"
+    onClick={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#33cccc",
+        "padding": "15px 10px",
+      }
+    }
+  >
+    blogs
+  </a>
+   
+  <a
+    aria-current={null}
+    className={undefined}
+    href="/users"
+    onClick={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#33cccc",
+        "padding": "15px 10px",
+      }
+    }
+  >
+    users
+  </a>
+   
+  <div />
+  <div />
+</div>
+`;
+
+exports[`renders <NoMatch/> correctly 1`] = `
+<h2>
+  404 this resource doesn't exist
+</h2>
+`;
+
+exports[`renders <Notification/> correctly 1`] = `
+<div
+  className="error"
+>
+  error
+</div>
+`;
+
+exports[`renders <Notification/> correctly 2`] = `
+<div
+  className="message"
+>
+  message
+</div>
+`;
+
+exports[`renders <SimpleBlog/> correctly 1`] = `
+<div>
+  <div
+    className="sBlogInfo"
+  >
+    Paperopoli
+     
+    Zio
+  </div>
+  <div
+    className="sBlogLikes"
+  >
+    blog has 
+    7
+     likes
+    <button
+      onClick={[Function]}
+    >
+      like
+    </button>
+  </div>
+</div>
+`;
+
+exports[`renders <Togglable/> correctly 1`] = `
+<div>
+  <div
+    style={
+      Object {
+        "display": "",
+      }
+    }
+  >
+    <button
+      name="s"
+      onClick={[Function]}
+    >
+      s
+    </button>
+  </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+  >
+    <div />
+    <button
+      onClick={[Function]}
+    >
+      hide 
+      "s"
+    </button>
+  </div>
+</div>
+`;
+
+exports[`renders <User/> correctly 1`] = `
+<div>
+  <h2>
+    Lia
+  </h2>
+  <div
+    className="box"
+  >
+    <h3>
+      added blogs
+    </h3>
+    <ul>
+      <li>
+        <span
+          style={
+            Object {
+              "fontStyle": "italic",
+            }
+          }
+        >
+          Cash
+        </span>
+         – 
+        Spitty
+      </li>
+      <li>
+        <span
+          style={
+            Object {
+              "fontStyle": "italic",
+            }
+          }
+        >
+          Jam
+        </span>
+         – 
+        Jazz
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`renders <UserList/> correctly 1`] = `
+<div>
+  <h2>
+    users
+  </h2>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          user
+        </th>
+        <th>
+          blogs added
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <a
+            href="/users/5b2acb1f140b1521cc5b5e36"
+            onClick={[Function]}
+          >
+            Lia
+          </a>
+        </td>
+        <td>
+          2
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a
+            href="/users/5b2acb1f140b1521cc5b5e34"
+            onClick={[Function]}
+          >
+            Papera
+          </a>
+        </td>
+        <td>
+          1
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a
+            href="/users/5b2acb1f140b1521cc5b5e37"
+            onClick={[Function]}
+          >
+            Rino
+          </a>
+        </td>
+        <td>
+          0
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
