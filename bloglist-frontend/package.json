@@ -15,7 +15,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "build": "babel src/ -d dist/",
+    "build": "babel src/ -d build/",
     "eject": "react-scripts eject",
     "flow": "flow",
     "lint": "eslint .",
