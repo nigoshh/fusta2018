@@ -1,5 +1,5 @@
 import axios from 'axios'
-const config = require('../utils/config') 
+const config = require('../utils/config')
 
 const baseUrl = config.backendUrl + '/api/blogs'
 
