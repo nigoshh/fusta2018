@@ -1,6 +1,8 @@
-let backendUrl = ''
-
-if (process.env.NODE_ENV === 'production')
-  backendUrl = process.env.BACKEND_URL
+const backendUrl = () => {
+  if (process.env.NODE_ENV === 'production')
+    return process.env.BACKEND_URL
+  else
+    return ''
+}
 
 export default backendUrl
