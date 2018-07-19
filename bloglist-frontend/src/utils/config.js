@@ -1,8 +1,8 @@
-const backendUrl = () => {
-  if (process.env.NODE_ENV === 'production')
-    return process.env.BACKEND_URL
-  else
-    return ''
-}
+let prod = false
+
+if (process.env.NODE_ENV === 'production')
+  prod = true
+
+const backendUrl = () => prod ? process.env.BACKEND_URL : ''
 
 export default backendUrl
