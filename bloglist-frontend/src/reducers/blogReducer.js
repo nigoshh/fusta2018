@@ -1,6 +1,7 @@
 // @flow
 import blogService from '../services/blogs'
 import { notifyError, notifyMessage } from './notificationReducer'
+import { refreshUser } from './userReducer'
 
 import type { UserType } from './userReducer'
 export type BlogType = {
@@ -49,7 +50,7 @@ const blogReducer =
 
 const sortByLikes = (blog1, blog2) => blog2.likes - blog1.likes
 
-const handleGenericError = (e: Object, dispatch: Object => void) => {
+export const handleGenericError = (e: Object, dispatch: Object => void) => {
   let error: string = e.response.data.error
   error = typeof error === 'string' ? error : JSON.stringify(error)
   notifyError(error, 5000)(dispatch)
@@ -62,12 +63,12 @@ export const initBlogs = () => async (dispatch: Object => void) => {
 }
 
 export const likeBlog =
-  (blog: BlogType, history: Object) =>
+  (id: string, history: Object) =>
     async (dispatch: Object => void) => {
       try {
-        blog.likes++
-        // can't use blog directly because of Flow's type checking
-        const blogToUpdate: Object = { ...blog }
+        // this cannot be BlogType because user will be a string here
+        const blogToUpdate: Object = await blogService.getOne(id)
+        blogToUpdate.likes++
         if (blogToUpdate.user)
           blogToUpdate.user = blogToUpdate.user.id
         const updatedBlog: BlogType =
@@ -75,7 +76,7 @@ export const likeBlog =
         dispatch({ type: 'LIKE_BLOG', blog: updatedBlog })
       } catch(e) {
         if (e.response.status === 404) {
-          await dispatch({ type: 'REMOVE_BLOG', id: blog.id })
+          await dispatch({ type: 'REMOVE_BLOG', id })
           history.push('/blogs')
         }
         handleGenericError(e, dispatch)
@@ -92,6 +93,7 @@ export const newBlog = (blog: BlogType, cleanForm: () => void, history: Object) 
       const message = `new blog added: ${title} by ${author}`
       notifyMessage(message, 5000)(dispatch)
       history.push(`/blogs/${createdBlog.id}`)
+      refreshUser(createdBlog.user.id)(dispatch)
     } catch(e) {
       handleGenericError(e, dispatch)
     }
@@ -127,6 +129,8 @@ export const removeBlog = (blog: BlogType, history: Object) =>
       const message = `successfully deleted "${blog.title}"`
       notifyMessage(message, 5000)(dispatch)
       history.push('/blogs')
+      if (blog.user)
+        refreshUser(blog.user.id)(dispatch)
     } catch(e) {
       if (e.response.status === 404) {
         await dispatch({ type: 'REMOVE_BLOG', id: blog.id })

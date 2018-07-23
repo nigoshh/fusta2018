@@ -2,7 +2,7 @@
 import blogService from '../services/blogs'
 import loginService from '../services/login'
 import userService from '../services/users'
-import { initBlogs } from './blogReducer'
+import { handleGenericError, initBlogs } from './blogReducer'
 import { notifyError, notifyMessage } from './notificationReducer'
 
 import type { BlogType } from './blogReducer'
@@ -16,7 +16,12 @@ export type UserType = {
 
 type Cred = { username: string, password: string }
 type LoggedInUser = { id: string, name: string, token: string, username: string }
-type UserAction = { type: string, user: LoggedInUser, users: Array<UserType> }
+type UserAction = {
+  type: string,
+  loggedInUser: LoggedInUser,
+  user: UserType,
+  users: Array<UserType>
+}
 
 export const initUsers = () => async (dispatch: Object => void) => {
   const users: Array<UserType> = await userService.getAll()
@@ -34,7 +39,7 @@ export const loggedInUserReducer =
   (state: LoggedInUser | null = initialLoggedInUser(), action: UserAction) => {
     switch (action.type) {
     case 'LOGIN':
-      return action.user
+      return action.loggedInUser
     case 'LOGOUT':
       return null
     default:
@@ -68,10 +73,20 @@ export const logout = (focusTextInput: () => void, history: Object) =>
     focusTextInput()
   }
 
-const setLoggedInUser = (user: LoggedInUser) => (dispatch: Object => void) => {
-  blogService.setToken(user.token)
-  dispatch({ type: 'LOGIN', user })
+export const refreshUser = (id: string) => async (dispatch: Object => void) => {
+  try{
+    const user: UserType = await userService.getOne(id)
+    dispatch({ type: 'UPDATE_USER', user })
+  } catch(e) {
+    handleGenericError(e, dispatch)
+  }
 }
+
+const setLoggedInUser = (loggedInUser: LoggedInUser) =>
+  (dispatch: Object => void) => {
+    blogService.setToken(loggedInUser.token)
+    dispatch({ type: 'LOGIN', loggedInUser })
+  }
 
 const sortByBlogs = (user1: UserType, user2: UserType): number =>
   user2.blogs.length - user1.blogs.length
@@ -82,6 +97,11 @@ export const usersReducer = (state: Array<UserType> = [], action: UserAction) =>
     return action.users
   case 'LOGOUT':
     return []
+  case 'UPDATE_USER': {
+    const newState = state.filter(u => u.id !== action.user.id)
+    newState.push(action.user)
+    return newState.sort(sortByBlogs)
+  }
   default:
     return state
   }

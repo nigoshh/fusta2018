@@ -13,7 +13,7 @@ export const Blog = ({ blog, history, like, loggedInUser, remove }) => {
   const { author, comments, id, likes, title, url, user } = blog
   const deleteButton =
     <button onClick={() => remove(blog, history)}>delete</button>
-  const likeButton = <button onClick={() => like(blog, history)}>like</button>
+  const likeButton = <button onClick={() => like(id, history)}>like</button>
   const superUser =
     <span style={{ textDecoration: 'line-through' }}>secret user</span>
   const commentList = () =>
